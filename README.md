@@ -344,3 +344,96 @@ FROM (SELECT world.continent, SUM(population) AS total_pop
 FROM world
 GROUP BY world.continent) AS continents
 WHERE total_pop >= 100000000
+
+NESTED SELECTS
+1.
+SELECT world.name
+FROM world
+WHERE world.population > 
+(SELECT world.population
+FROM world
+WHERE world.name = 'Russia')
+
+2.
+SELECT world.name
+FROM world
+WHERE (world.gdp / world.population) >
+(SELECT (world.gdp / world.population) AS uk_gdp_per_capita
+FROM world
+WHERE world.name = 'United Kingdom')
+AND
+world.continent = 'Europe'
+
+3. 
+SELECT world.name, world.continent
+FROM world
+WHERE world.continent IN 
+(SELECT world.continent
+FROM world
+WHERE world.name = 'Argentina' OR world.name = 'Australia')
+ORDER BY world.name
+
+4.
+SELECT world.name, world.population
+FROM world
+WHERE world.population
+>
+(SELECT world.population
+FROM world
+WHERE world.name = 'Canada')
+AND
+world.population
+<
+(SELECT world.population
+FROM world
+WHERE world.name = 'Poland')
+
+5.
+SELECT world.name, CONCAT(ROUND((world.population / (SELECT world.population
+FROM world
+WHERE world.name = 'Germany')) * 100), '%')
+FROM world
+WHERE world.continent = 'Europe'
+
+6.
+SELECT world.name
+FROM world
+WHERE world.gdp >
+(SELECT MAX(world.gdp)
+FROM world
+WHERE world.continent = 'Europe')
+
+7.
+SELECT world.continent, world.name, world.area
+FROM world
+WHERE world.area IN
+(SELECT MAX(world.area)
+FROM world
+GROUP BY world.continent)
+
+8.
+SELECT world.continent, world.name
+FROM world
+WHERE world.name IN
+(SELECT MIN(world.name)
+FROM world
+GROUP BY world.continent)
+
+9.
+SELECT world.name, world.continent, world.population
+FROM world
+WHERE world.continent IN 
+(SELECT max_per_continent.continent
+FROM (SELECT world.continent, MAX(world.population) AS max_pop
+FROM world
+GROUP BY continent) AS max_per_continent
+WHERE max_per_continent.max_pop <= 25000000)
+
+10.
+<!-- FROM world
+WHERE world.population > (3 * min_table.min_pop)
+AND
+world.continent = min_table.continent
+(SELECT world.continent, MIN(world.population) AS min_pop
+FROM world
+GROUP BY continent) AS min_table -->
