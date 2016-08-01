@@ -58,3 +58,80 @@ WHERE world.gdp >= 1000000000000
             ELSE continent END AS continent
   FROM world
  WHERE name LIKE 'N%'
+
+12. SELECT name, 
+      CASE WHEN continent='Europe' THEN 'Eurasia'
+          WHEN continent='Asia' THEN 'Eurasia'
+          WHEN continent='North America' THEN 'America'
+         WHEN continent='South America' THEN 'America'
+          WHEN continent='Caribbean' THEN 'America'
+           ELSE continent END
+ FROM world
+WHERE  name LIKE 'A%' 
+OR name LIKE  'B%'
+
+ 13. SELECT name, continent,
+     CASE WHEN continent = 'Oceania' THEN 'Australasia'
+    WHEN continent = 'Eurasia' THEN 'Europe/Asia'
+    WHEN continent = 'Caribbean' AND name LIKE 'B%' THEN 'North America'
+    WHEN continent = 'Caribbean' THEN 'South America'
+    ELSE continent END AS new_continent
+FROM world
+ORDER BY name
+
+
+NOBEL
+
+1. SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950
+
+ 2. SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'Literature'
+
+3. SELECT yr, subject
+FROM nobel
+WHERE winner = 'Albert Einstein'
+
+
+4. SELECT winner
+FROM nobel
+WHERE yr >= 2000 AND subject = 'Peace'
+
+5. SELECT yr, subject, winner
+FROM nobel
+WHERE yr BETWEEN 1980 AND 1989
+AND subject = 'Literature'
+
+6. SELECT * FROM nobel
+ WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter')
+
+
+7. SELECT winner
+FROM nobel
+WHERE winner LIKE 'John%'
+
+8. SELECT *
+FROM nobel
+WHERE (subject = 'Physics' AND yr = 1980) OR (subject = 'Chemistry' AND yr = 1984)
+
+
+9. SELECT *
+FROM nobel
+WHERE yr = 1980 
+AND subject NOT IN ('Chemistry', 'Medicine')
+
+10. SELECT * FROM nobel
+WHERE (subject = 'Medicine' AND yr < 1910) OR (subject = 'Literature' AND yr >= 2004)
+
+11. SELECT * FROM nobel
+WHERE winner = 'Peter Grünberg'
+
+12. SELECT * FROM nobel
+WHERE winner = 'Eugene O''Neill'
+
+
+
+
