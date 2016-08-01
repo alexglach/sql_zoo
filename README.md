@@ -333,3 +333,14 @@ FROM world
 GROUP BY continent
 
 7. 
+SELECT world.continent, COUNT(*) AS num_countries
+FROM world
+WHERE world.population >= 10000000
+GROUP BY world.continent
+
+8.
+SELECT continents.continent
+FROM (SELECT world.continent, SUM(population) AS total_pop
+FROM world
+GROUP BY world.continent) AS continents
+WHERE total_pop >= 100000000
