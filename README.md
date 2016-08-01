@@ -132,6 +132,49 @@ WHERE winner = 'Peter Grünberg'
 12. SELECT * FROM nobel
 WHERE winner = 'Eugene O''Neill'
 
+13. SELECT winner, yr, subject
+FROM nobel
+WHERE winner like 'Sir%'
+ORDER BY yr DESC, winner;
 
+14. SELECT winner, subject AS
+  FROM nobel
+ WHERE yr=1984
+ ORDER BY subject IN ('Physics', 'Chemistry'), subject, winner
 
+JOIN
+1. SELECT goal.matchid, goal.player
+FROM goal
+WHERE goal.teamid = 'GER'
 
+2. SELECT game.id, game.stadium, game.team1, game.team2
+FROM game
+WHERE game.id = 1012
+
+3. SELECT goal.player, goal.teamid, game.stadium, game.mdate
+FROM goal JOIN game ON goal.matchid = game.id
+WHERE goal.teamid = 'GER'
+
+4. SELECT game.team1, game.team2, goal.player
+FROM goal JOIN game ON goal.matchid = game.id
+WHERE goal.player LIKE 'Mario%'
+
+5. SELECT goal.player, goal.teamid, eteam.coach, goal.gtime
+FROM goal JOIN eteam ON goal.teamid = eteam.id
+WHERE goal.gtime <= 10
+
+6. SELECT game.mdate, eteam.teamname
+FROM game JOIN eteam ON game.team1 = eteam.id
+WHERE eteam.coach = 'Fernando Santos'
+
+7. SELECT goal.player
+FROM goal JOIN game ON goal.matchid = game.id
+WHERE game.stadium = 'National Stadium, Warsaw'
+
+8. SELECT DISTINCT goal.player
+FROM goal JOIN game ON goal.matchid = game.id
+WHERE (goal.teamid != 'GER') AND (game.team1 = 'GER' OR game.team2 = 'GER')
+
+9. SELECT eteam.teamname, COUNT(*) AS goals
+FROM goal JOIN eteam ON goal.teamid = eteam.id
+GROUP BY eteam.teamname
