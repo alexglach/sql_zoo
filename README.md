@@ -273,3 +273,63 @@ GROUP BY movie.yr
 HAVING COUNT(*) > 2
 
 13.
+SELECT movie.title, actor.name
+FROM casting JOIN actor ON actor.id = casting.actorid
+JOIN movie ON movie.id = casting.movieid
+WHERE casting.movieid IN (SELECT movie.id 
+FROM movie JOIN casting ON movie.id = casting.movieid
+JOIN actor ON casting.actorid  = actor.id
+WHERE actor.name = 'Julie Andrews') AND casting.ord = 1
+
+14.
+SELECT name
+FROM (SELECT actor.name, COUNT(*) as starring_roles
+FROM casting JOIN actor ON actor.id = casting.actorid
+WHERE casting.ord = 1
+GROUP BY actor.name) as actors
+WHERE starring_roles >= 30
+
+15. 
+SELECT movie.title, COUNT(*) as num_actors
+FROM casting JOIN movie ON casting.movieid = movie.id
+WHERE yr = 1978
+GROUP BY movie.title
+ORDER BY num_actors DESC
+
+16. 
+SELECT actor.name
+FROM actor JOIN casting ON actor.id = casting.actorid
+WHERE casting.movieid IN (SELECT casting.movieid
+FROM casting JOIN actor ON actor.id = casting.actorid
+WHERE actor.name = 'Art Garfunkel') AND  actor.name != 'Art Garfunkel'
+
+SUM AND COUNT
+
+1. SELECT SUM(population)
+FROM world
+
+2. 
+SELECT DISTINCT continent
+FROM world
+
+3. 
+SELECT SUM(GDP)
+FROM world
+WHERE continent = 'Africa'
+
+4. 
+SELECT COUNT(*)
+FROM world
+WHERE area >= 1000000
+
+5.
+SELECT SUM(population)
+FROM world
+WHERE name IN ('France', 'Germany', 'Spain')
+
+6. 
+SELECT continent, COUNT(*) as num_countries
+FROM world
+GROUP BY continent
+
+7. 
