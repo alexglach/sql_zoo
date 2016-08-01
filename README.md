@@ -228,9 +228,48 @@ WHERE name = 'Glenn Close'
 FROM movie
 WHERE movie.title = 'Casablanca'
 
-7. SELECT name
+7. 
+(subquery) SELECT name
 FROM actor
 WHERE id IN (
      SELECT actorid
       FROM casting
       WHERE movieid = 11768)
+
+(join) SELECT actor.name
+FROM casting JOIN actor ON casting.actorid = actor.id
+WHERE casting.movieid = 11768
+
+8.
+SELECT actor.name
+FROM casting JOIN actor ON casting.actorid = actor.id
+JOIN movie ON casting.movieid = movie.id
+WHERE movie.title = 'Alien'
+
+9.
+SELECT movie.title
+FROM casting JOIN actor ON casting.actorid = actor.id
+JOIN movie ON casting.movieid = movie.id
+WHERE actor.name = 'Harrison Ford'
+
+10.
+SELECT movie.title
+FROM casting JOIN actor ON casting.actorid = actor.id
+JOIN movie ON casting.movieid = movie.id
+WHERE actor.name = 'Harrison Ford' AND casting.ord != 1
+
+11.
+SELECT movie.title, actor.name
+FROM casting JOIN movie ON casting.movieid = movie.id
+JOIN actor ON casting.actorid = actor.id
+WHERE movie.yr = 1962 AND casting.ord = 1
+
+12. 
+SELECT movie.yr, COUNT(*)
+FROM casting JOIN actor ON casting.actorid = actor.id
+JOIN movie ON casting.movieid = movie.id
+WHERE actor.name = 'John Travolta'
+GROUP BY movie.yr
+HAVING COUNT(*) > 2
+
+13.
