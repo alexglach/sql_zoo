@@ -178,3 +178,59 @@ WHERE (goal.teamid != 'GER') AND (game.team1 = 'GER' OR game.team2 = 'GER')
 9. SELECT eteam.teamname, COUNT(*) AS goals
 FROM goal JOIN eteam ON goal.teamid = eteam.id
 GROUP BY eteam.teamname
+
+10. SELECT game.stadium, COUNT(*) AS goals_scored
+FROM goal JOIN game ON goal.matchid = game.id
+GROUP BY game.stadium
+
+11. SELECT game.id, game.mdate, COUNT(*)
+FROM game JOIN goal ON game.id = goal.matchid
+WHERE game.team1 = 'POL' OR game.team2 = 'POL'
+GROUP BY game.id, game.mdate
+
+12. SELECT game.id, game.mdate, COUNT(*)
+FROM game JOIN goal ON game.id = goal.matchid
+WHERE goal.teamid = 'GER'
+GROUP BY game.id, game.mdate
+
+13. SELECT mdate,
+  team1,
+  SUM(CASE WHEN teamid=team1 THEN 1  ELSE 0 END) score1,
+  team2,
+  SUM( CASE WHEN teamid = team2 THEN 1 ELSE 0 END) score2
+  FROM game LEFT OUTER JOIN goal ON matchid = id
+GROUP BY mdate, team1, team2
+
+MORE JOINS
+
+1. SELECT id, title
+ FROM movie
+ WHERE yr=1962
+
+2. SELECT yr
+FROM movie
+WHERE title='Citizen Kane'
+
+3. SELECT id, title, yr
+FROM movie
+WHERE title LIKE '%Star Trek%'
+ORDER BY yr
+
+4. SELECT title
+FROM movie
+WHERE id IN ('11768', '11955', '21191')
+
+5. SELECT id
+FROM actor
+WHERE name = 'Glenn Close'
+
+6. SELECT movie.id
+FROM movie
+WHERE movie.title = 'Casablanca'
+
+7. SELECT name
+FROM actor
+WHERE id IN (
+     SELECT actorid
+      FROM casting
+      WHERE movieid = 11768)
