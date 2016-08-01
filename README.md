@@ -430,10 +430,65 @@ GROUP BY continent) AS max_per_continent
 WHERE max_per_continent.max_pop <= 25000000)
 
 10.
-<!-- FROM world
-WHERE world.population > (3 * min_table.min_pop)
-AND
-world.continent = min_table.continent
-(SELECT world.continent, MIN(world.population) AS min_pop
-FROM world
-GROUP BY continent) AS min_table -->
+SELECT  world_1.name, world_1.continent
+FROM world AS world_1
+WHERE world_1.population > ALL
+(SELECT 3 * world_2.population
+FROM world AS world_2
+WHERE world_2.continent = world_1.continent
+  AND world_2.name != world_1.name)
+
+USING NULL
+1.SELECT teacher.name
+FROM teacher
+WHERE teacher.dept IS NULL
+
+2.
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
+3.
+SELECT teacher.name, dept.name
+FROM teacher LEFT OUTER JOIN dept ON teacher.dept = dept.id
+
+4.
+SELECT teacher.name, dept.name
+FROM teacher RIGHT OUTER JOIN dept ON teacher.dept = dept.id
+
+5.
+SELECT teacher.name, COALESCE(teacher.mobile,'07986 444 2266')
+FROM teacher
+
+6.
+SELECT teacher.name, COALESCE(dept.name,'None')
+FROM teacher LEFT JOIN dept ON teacher.dept = dept.id
+
+7.
+SELECT COUNT(teacher.id) AS teachers, COUNT(teacher.mobile) AS mobile
+FROM teacher
+
+8.
+SELECT dept.name, COUNT(teacher.id) AS teachers
+FROM teacher RIGHT JOIN dept ON teacher.dept = dept.id
+GROUP BY dept.name
+
+9.
+SELECT teacher.name, CASE WHEN (dept.id = 1 OR dept.id = 2) THEN 'Sci' ELSE 'Art' END
+FROM teacher LEFT JOIN dept ON teacher.dept = dept.id
+
+
+10.
+SELECT teacher.name, CASE WHEN (dept.id = 1 OR dept.id = 2) THEN 'Sci' WHEN (dept.id = 3) THEN 'Art' ELSE 'None' END
+FROM teacher LEFT JOIN dept ON teacher.dept = dept.id
+
+
+SELF-JOIN
+1. SELECT COUNT(*)
+FROM stops
+
+2. SELECT stops.id
+FROM stops
+where stops.name = 'Craiglockhart'
+
+3.
